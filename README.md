@@ -1,0 +1,1 @@
+This repository contains the audio-visual materials used in the study "Who is the boy pointing at?". The audio files were recorded by a native US speaker. This repository also contains the R code we used to analyse the data.
