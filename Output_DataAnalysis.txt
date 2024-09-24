@@ -1,0 +1,106 @@
+
+Generalized linear mixed model fit by maximum likelihood (Laplace Approximation) ['glmerMod']
+ Family: binomial  ( logit )
+Formula: accuracy ~ pronoun_form * stimuli_type + (1 | subjects) + (1 |      item)
+   Data: Pronouns_data_all
+
+     AIC      BIC   logLik deviance df.resid 
+   557.6    582.6   -272.8    545.6      473 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-2.6546 -0.6812  0.3767  0.5244  1.9304 
+
+Random effects:
+ Groups   Name        Variance      Std.Dev. 
+ subjects (Intercept) 1.62675364110 1.2754425
+ item     (Intercept) 0.00000001669 0.0001292
+Number of obs: 479, groups:  subjects, 63; item, 16
+
+Fixed effects:
+                                     Estimate Std. Error z value Pr(>|z|)   
+(Intercept)                            0.8770     0.3128   2.804  0.00506 **
+pronoun_formreduced                   -0.3803     0.4468  -0.851  0.39465   
+stimuli_typetrue                       0.5790     0.3135   1.847  0.06480 . 
+pronoun_formreduced:stimuli_typetrue  -0.0315     0.4460  -0.071  0.94369   
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Correlation of Fixed Effects:
+            (Intr) prnn_f stml_t
+prnn_frmrdc -0.695              
+stiml_typtr -0.441  0.312       
+prnn_frmr:_  0.316 -0.452 -0.700
+> full_data = subset(Pronouns_data_all, pronoun_form=="full") #subset of only full form pronouns
+> 
+> reduced_data = subset(Pronouns_data_all, pronoun_form=="reduced") #subset of only reduced form pronouns
+> 
+> 
+> t.test(full_data$accuracy, mu=0.5, alt="g") 
+
+	One Sample t-test
+
+data:  full_data$accuracy
+t = 7.2413, df = 252, p-value = 0.00000000000269
+alternative hypothesis: true mean is greater than 0.5
+95 percent confidence interval:
+ 0.6602004       Inf
+sample estimates:
+mean of x 
+0.7075099 
+
+> 
+> 
+> t.test(reduced_data$accuracy, mu=0.5, alt="g") 
+
+	One Sample t-test
+
+data:  reduced_data$accuracy
+t = 4.2792, df = 225, p-value = 0.00001388
+alternative hypothesis: true mean is greater than 0.5
+95 percent confidence interval:
+ 0.5842253       Inf
+sample estimates:
+mean of x 
+0.6371681 
+
+> 
+> 
+> m2 = glmer(accuracy ~ pronoun_type + 
++              (1|subjects) + (1|item),
++            family = binomial(),
++            data = My_data_all)
+boundary (singular) fit: see help('isSingular')
+> 
+> 
+> summary(m2)
+Generalized linear mixed model fit by maximum likelihood (Laplace Approximation) ['glmerMod']
+ Family: binomial  ( logit )
+Formula: accuracy ~ pronoun_type + (1 | subjects) + (1 | item)
+   Data: My_data_all
+
+     AIC      BIC   logLik deviance df.resid 
+   923.4    942.8   -457.7    915.4      956 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-4.2031  0.2034  0.3522  0.5378  1.1138 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ subjects (Intercept) 0.5893   0.7676  
+ item     (Intercept) 0.0000   0.0000  
+Number of obs: 960, groups:  subjects, 63; item, 16
+
+Fixed effects:
+                    Estimate Std. Error z value             Pr(>|z|)    
+(Intercept)           2.2873     0.1862  12.282 < 0.0000000000000002 ***
+pronoun_typepronoun  -1.4563     0.1822  -7.994   0.0000000000000013 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Correlation of Fixed Effects:
+            (Intr)
+prnn_typprn -0.692
+optimizer (Nelder_Mead) convergence code: 0 (OK)
+boundary (singular) fit: see help('isSingular')
